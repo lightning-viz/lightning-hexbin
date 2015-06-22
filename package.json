@@ -1,6 +1,6 @@
 {
   "name": "lightning-hexbin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Lightning hexbin visualization",
   "main": "index.js",
   "scripts": {
