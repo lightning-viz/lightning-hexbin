@@ -27,14 +27,7 @@ var Hexbin = React.createClass({
 
     componentDidUpdate: function() {
         var context = this.getDOMNode().getContext('2d');
-        console.log('clearing rect');
         context.clearRect(0, 0, this.props.width, this.props.height);
-        // this.forceUpdate();
-
-        console.log(this.props.childen);
-        this.props.childen.map(function(c) {
-            c.forceUpdate();
-        })
     },
 
     drawNodes: function() {
