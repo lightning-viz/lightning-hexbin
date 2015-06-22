@@ -16,6 +16,7 @@
   "dependencies": {
     "d3": "^3.5.5",
     "lightning-client-utils": "^0.6.3",
+    "lightning-visualization": "0.0.1",
     "lodash": "^3.9.3",
     "react": "^0.13.3"
   },
