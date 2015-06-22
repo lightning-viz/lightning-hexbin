@@ -1,0 +1,39 @@
+{
+  "name": "hexbin",
+  "version": "0.0.0",
+  "description": "Lightning hexbin visualization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "jsx src lib",
+    "watch": "jsx -w src lib"
+  },
+  "keywords": [
+    "lightning-visualization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^3.5.5",
+    "lightning-client-utils": "^0.6.3",
+    "lodash": "^3.9.3",
+    "react": "^0.13.3"
+  },
+  "lightning": {
+    "sampleData": [
+      {
+        "name": "test",
+        "data": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ]
+  },
+  "devDependencies": {
+    "react-tools": "^0.13.3"
+  }
+}
