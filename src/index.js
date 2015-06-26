@@ -10,10 +10,10 @@ var random = require('d3-random');
 var LightningHexbin = LightningVisualization.extend({
 
     init: function() {
-        this.renderComponent();
+        this.render();
     },
 
-    renderComponent: function() {
+    render: function() {
         React.render((<Hexbin points={this.data.points} width={this.width} height={this.height} />), $(this.selector)[0]);
     },
 
@@ -25,7 +25,7 @@ var LightningHexbin = LightningVisualization.extend({
 
     updateData: function(formattedData) {
         this.data = formattedData;
-        this.renderComponent();
+        this.render();
     }
 
 });
