@@ -1,4 +1,3 @@
-
 var React = require('react');
 
 var Bin = React.createClass({ 
@@ -14,7 +13,6 @@ var Bin = React.createClass({
     },
  
     paint: function(context) {
-        
         context.save();
         
         context.translate(this.props.x, this.props.y);
@@ -34,9 +32,7 @@ var Bin = React.createClass({
     render: function() {
         return false;
     }
- 
-});
- 
 
+});
 
 module.exports = Bin;

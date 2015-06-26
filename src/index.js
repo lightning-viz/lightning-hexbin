@@ -1,18 +1,19 @@
-
 var React = require('react');
 var Hexbin = require('./components/hexbin');
-var d3 = require('d3');
 var LightningVisualization = require('lightning-visualization');
 var _ = require('lodash');
-
+var random = require('d3-random');
 
 /*
- * Initialize a new visualization and call the internal _init function
+ * Extend the base visualization object
  */
 var LightningHexbin = LightningVisualization.extend({
 
     init: function() {
+        this.renderComponent();
+    },
 
+    renderComponent: function() {
         React.render((<Hexbin points={this.data.points} width={this.width} height={this.height} />), $(this.selector)[0]);
     },
 
@@ -20,6 +21,11 @@ var LightningHexbin = LightningVisualization.extend({
         return {
             points: _.zip(data.x || [], data.y || [])
         }
+    },
+
+    updateData: function(formattedData) {
+        this.data = formattedData;
+        this.renderComponent();
     }
 
 });
