@@ -12,11 +12,27 @@ var AxisWrapper = React.createClass({
         };
     },
 
-    makeXAxis: function () {
-        return d3.svg.axis()
+    componentDidMount: function() {
+        var xAxis = React.findDOMNode(this.refs.xAxis);
+        console.log(xAxis);
+        var s = d3.select(xAxis);
+        console.log(s);
+
+        var d3Axis = d3.svg.axis()
             .scale(this.props.x)
             .orient(this.props.xPosition)
             .ticks(this.props.xTicks);
+
+        s.call(d3Axis);
+    },
+
+    xAxis: function () {
+        return (<g className={'x axis'} transform={this._formatTranslate(0, this.props.height - 20)} ref="xAxis"></g>)
+
+        // return d3.svg.axis()
+        //     .scale(this.props.x)
+        //     .orient(this.props.xPosition)
+        //     .ticks(this.props.xTicks);
     },
 
     makeYAxis: function() {
@@ -31,6 +47,7 @@ var AxisWrapper = React.createClass({
     },
 
     render: function() {
+
         var children = React.Children.map(this.props.children, function(child, i) {
             return React.cloneElement(child, {style: {position: 'absolute'}, width: this.props.width, height: this.props.height});
         }, this);
@@ -38,7 +55,7 @@ var AxisWrapper = React.createClass({
         return (
             <div style={{position: 'relative'}}>
                 <svg width={this.props.width} height={this.props.height} style={{position: 'absolute'}}>
-                    <g className={'x axis'} transform={this._formatTranslate(0, this.props.height - 20)}></g>
+                    {this.xAxis()}
                 </svg>
                 {children}
             </div>
