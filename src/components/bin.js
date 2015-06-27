@@ -3,13 +3,11 @@ var React = require('react');
 var Bin = React.createClass({ 
  
     componentDidMount: function() {
-        var context = this.props.getCanvasNode().getContext('2d');
-        this.paint(context);
+        this.paint(this.props.getContext());
     },
  
     componentDidUpdate: function() {
-        var context = this.props.getCanvasNode().getContext('2d');
-        this.paint(context);
+        this.paint(this.props.getContext());
     },
  
     paint: function(context) {

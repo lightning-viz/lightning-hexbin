@@ -4,6 +4,8 @@ var _ = require('lodash');
 var React = require('react');
 var utils = require('lightning-client-utils');
 var scale = require('d3-scale');
+var AxisWrapper = require('./axis-wrapper');
+var Canvas = require('./canvas');
 
 var Hexbin = React.createClass({
 
@@ -66,17 +68,17 @@ var Hexbin = React.createClass({
         });
 
         return _.map(data, function(d, i) {
-            return (<Bin path={path} x={d.x} y={d.y} getCanvasNode={this.getDOMNode} color={colors[i]} key={i} />)
+            return (<Bin path={path} x={d.x} y={d.y} color={colors[i]} key={i} />)
         }, this);
     },
 
     render: function() {
         return (
-            <canvas 
-                width={this.props.width} 
-                height={this.props.height}>
-                {this.drawNodes()}
-            </canvas>
+            <AxisWrapper width={this.props.width} height={this.props.height} x={this.scaleX()} y={this.scaleY()}>
+                <Canvas>
+                    {this.drawNodes()}
+                </Canvas>
+            </AxisWrapper>
         )
     }
  
