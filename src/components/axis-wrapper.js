@@ -8,7 +8,13 @@ var AxisWrapper = React.createClass({
           xTicks: 5,
           yTicks: 5,
           xPosition: 'bottom',
-          yPosition: 'left'
+          yPosition: 'left',
+          margin: {
+            bottom: 20,
+            left: 20,
+            top: 0,
+            right: 0
+          }
         };
     },
 
@@ -35,21 +41,31 @@ var AxisWrapper = React.createClass({
         //     .ticks(this.props.xTicks);
     },
 
-    makeYAxis: function() {
-        return d3.svg.axis()
-            .scale(this.props.y)
-            .orient(this.props.yPosition)
-            .ticks(this.props.yTicks);
+    yAxis: function() {
+
+        return (<g className={'y axis'} transform={this._formatTranslate(0, this.props.height - 20)} ref="xAxis"></g>)
+        // return d3.svg.axis()
+        //     .scale(this.props.y)
+        //     .orient(this.props.yPosition)
+        //     .ticks(this.props.yTicks);
     },
 
     _formatTranslate: function (x, y) {
         return 'translate(' + x + ',' + y + ')';
     },
 
+    getChildWidth: function() {
+        return this.props.width - this.props.margin.left - this.props.margin.right;
+    },
+
+    getChildHeight: function() {
+        return this.props.height - this.props.margin.top - this.props.margin.bottom;
+    },
+
     render: function() {
 
         var children = React.Children.map(this.props.children, function(child, i) {
-            return React.cloneElement(child, {style: {position: 'absolute'}, width: this.props.width, height: this.props.height});
+            return React.cloneElement(child, {style: {position: 'absolute'}, width: this.getChildWidth(), height: this.getChildHeight()});
         }, this);
 
         return (
