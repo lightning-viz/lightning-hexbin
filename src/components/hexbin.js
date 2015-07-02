@@ -12,7 +12,13 @@ var Hexbin = React.createClass({
     getDefaultProps: function() {
         return {
           points: [],
-          initialRadius: 10
+          initialRadius: 10,
+          margin: {
+            bottom: 20,
+            left: 20,
+            top: 0,
+            right: 0
+          }
         };
     },
 
@@ -32,15 +38,23 @@ var Hexbin = React.createClass({
     },
 
     hexbin: function() {
-        return hexbin().size([this.props.width, this.props.height]).radius(this.state.radius);
+        return hexbin().size([this.getInnerWidth(), this.getInnerHeight()]).radius(this.state.radius);
     },
 
     scaleX: function() {
-        return scale.linear().domain(this._getExtent(0)).range([0, this.props.width]);
+        return scale.linear().domain(this._getExtent(0)).range([0, this.getInnerWidth()]);
     },
 
     scaleY: function() {
-        return scale.linear().domain(this._getExtent(1)).range([0, this.props.height]);
+        return scale.linear().domain(this._getExtent(1)).range([this.getInnerHeight(), 0]);
+    },
+
+    getInnerWidth: function() {
+        return this.props.width - this.props.margin.left - this.props.margin.right;
+    },
+
+    getInnerHeight: function() {
+        return this.props.height - this.props.margin.top - this.props.margin.bottom;
     },
 
     componentWillUpdate: function() {
@@ -74,7 +88,7 @@ var Hexbin = React.createClass({
 
     render: function() {
         return (
-            <AxisWrapper width={this.props.width} height={this.props.height} x={this.scaleX()} y={this.scaleY()}>
+            <AxisWrapper width={this.props.width} height={this.props.height} margin={this.props.margin} x={this.scaleX()} y={this.scaleY()}>
                 <Canvas>
                     {this.drawNodes()}
                 </Canvas>

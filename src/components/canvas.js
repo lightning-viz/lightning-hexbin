@@ -18,7 +18,7 @@ var Canvas = React.createClass({
         }, this);
 
         return (
-            <canvas width={this.props.width} height={this.props.height}>
+            <canvas width={this.props.width} height={this.props.height} style={this.props.style}>
                 {children}
             </canvas>
         )

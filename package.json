@@ -18,7 +18,8 @@
     "lightning-client-utils": "^0.6.3",
     "lightning-visualization": "0.0.3",
     "lodash": "^3.9.3",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "svg-path-generator": "^1.1.0"
   },
   "lightning": {
     "sampleData": [
