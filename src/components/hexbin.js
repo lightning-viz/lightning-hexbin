@@ -24,7 +24,9 @@ var Hexbin = React.createClass({
 
     getInitialState: function() {
         return {
-            radius: this.props.initialRadius
+            radius: this.props.initialRadius,
+            x: scale.linear().domain(this._getExtent(0)).range([0, this.getInnerWidth()]),
+            y: scale.linear().domain(this._getExtent(1)).range([this.getInnerHeight(), 0])
         };
     },
 
@@ -41,14 +43,6 @@ var Hexbin = React.createClass({
         return hexbin().size([this.getInnerWidth(), this.getInnerHeight()]).radius(this.state.radius);
     },
 
-    scaleX: function() {
-        return scale.linear().domain(this._getExtent(0)).range([0, this.getInnerWidth()]);
-    },
-
-    scaleY: function() {
-        return scale.linear().domain(this._getExtent(1)).range([this.getInnerHeight(), 0]);
-    },
-
     getInnerWidth: function() {
         return this.props.width - this.props.margin.left - this.props.margin.right;
     },
@@ -57,38 +51,24 @@ var Hexbin = React.createClass({
         return this.props.height - this.props.margin.top - this.props.margin.bottom;
     },
 
-    componentWillUpdate: function() {
-        var context = this.getDOMNode().getContext('2d');
-        context.clearRect(0, 0, this.props.width, this.props.height);
-    },
-
     drawNodes: function() {
         var hexbin = this.hexbin();
-        var scaleX = this.scaleX();
-        var scaleY = this.scaleY();
         var path = hexbin.hexagon();
 
-        var x, y;
-        var points = _.map(this.props.points, function(d) {
-            x = scaleX(d[0]);
-            y = scaleY(d[1]);
-            return [x, y];
-        }, this);
-
-        var data = hexbin(points);
+        var data = hexbin(this.props.points);
         var value = _.pluck(data, 'length');
         var colors = utils.getColorFromData({
             value: value
         });
 
         return _.map(data, function(d, i) {
-            return (<Bin path={path} x={d.x} y={d.y} color={colors[i]} key={i} />)
+            return (<Bin path={path} x={this.state.x(d.x)} y={this.state.y(d.y)} color={colors[i]} key={i} />)
         }, this);
     },
 
     render: function() {
         return (
-            <AxisWrapper width={this.props.width} height={this.props.height} margin={this.props.margin} x={this.scaleX()} y={this.scaleY()}>
+            <AxisWrapper width={this.props.width} height={this.props.height} margin={this.props.margin} x={this.state.x} y={this.state.y}>
                 <Canvas>
                     {this.drawNodes()}
                 </Canvas>

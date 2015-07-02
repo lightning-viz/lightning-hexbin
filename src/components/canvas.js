@@ -12,6 +12,11 @@ var Canvas = React.createClass({
         return React.findDOMNode(this).getContext('2d');
     },
 
+    componentWillUpdate: function() {
+        var context = this.getContext();
+        context.clearRect(0, 0, this.props.width, this.props.height);
+    },
+
     render: function() {
         var children = React.Children.map(this.props.children, function(child, i) {
             return React.cloneElement(child, {getContext: this.getContext});

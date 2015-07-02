@@ -1,6 +1,7 @@
 var React = require('react');
 var d3 = require('d3');
 var Axis = require('./axis');
+var _ = require('lodash');
 
 var AxisWrapper = React.createClass({
 
@@ -17,6 +18,28 @@ var AxisWrapper = React.createClass({
             right: 0
           }
         };
+    },
+
+    zoomed: function() {
+        console.log('zoomed');
+        this.forceUpdate();
+    },
+
+    componentDidMount: function() {
+        var svg = React.findDOMNode(this.refs.svg);
+        var child = React.findDOMNode(this.refs.child);
+        var s = d3.select(svg);
+        var c = d3.select(child);
+
+        var zoom = d3.behavior.zoom()
+            .x(this.props.x)
+            .y(this.props.y)
+            .on('zoom', _.debounce(this.zoomed, 10));
+
+        s.call(zoom);
+        console.log(c);
+        c.call(zoom);
+        
     },
 
     xAxis: function () {
@@ -51,12 +74,12 @@ var AxisWrapper = React.createClass({
 
     render: function() {
         var children = React.Children.map(this.props.children, function(child, i) {
-            return React.cloneElement(child, {style: {position: 'absolute', marginLeft: this.props.margin.left, marginTop: this.props.margin.top}, width: this.getInnerWidth(), height: this.getInnerHeight()});
+            return React.cloneElement(child, {ref: 'child', style: {position: 'absolute', marginLeft: this.props.margin.left, marginTop: this.props.margin.top}, width: this.getInnerWidth(), height: this.getInnerHeight()});
         }, this);
 
         return (
             <div style={{position: 'relative'}}>
-                <svg width={this.props.width} height={this.props.height} style={{position: 'absolute'}}>
+                <svg width={this.props.width} height={this.props.height} style={{position: 'absolute'}} ref={'svg'}>
                     {this.xAxis()}
                     {this.yAxis()}
                 </svg>

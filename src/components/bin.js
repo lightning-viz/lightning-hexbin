@@ -3,10 +3,12 @@ var React = require('react');
 var Bin = React.createClass({ 
  
     componentDidMount: function() {
+        console.log('did mount update');
         this.paint(this.props.getContext());
     },
  
     componentDidUpdate: function() {
+        console.log('did update bin');
         this.paint(this.props.getContext());
     },
  
